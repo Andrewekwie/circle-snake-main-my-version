@@ -3,12 +3,12 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <LITTLEFS.h>
-#include <FS.h> // Or the specific header file of the library you installed
+#include <FS.h>
 #include "Constants.h"
 #include "Joystick.h"
 #include "Game.h"
 #include "Menu.h"
-int scrollIndex = 0;  // 👈 добавь перед void setup()
+int scrollIndex = 0;
 
 #include <LittleFS.h>
 #define OLED_ADDR 0x3C
@@ -17,8 +17,8 @@ const uint8_t OLED_WIDTH = 128;
 const uint8_t OLED_HEIGHT = 64;
 
 // Joystick pins
-const uint8_t X_PIN = 33; // ADC1
-const uint8_t Y_PIN = 32; // ADC1
+const uint8_t X_PIN = 33; 
+const uint8_t Y_PIN = 32; 
 const uint8_t SW_PIN = 25;
 const uint8_t pin = 13;
 
@@ -38,19 +38,19 @@ void debug(String str)
 
 void setup()
 {
-  Serial.begin(115200);  // 👈 должно быть первым
+  Serial.begin(115200); 
 
   if (!LittleFS.begin()) {
     Serial.println("LITTLEFS Mount Failed");
   } else {
-    game.loadScores();  // загрузим сохранённые очки
+    game.loadScores();  
   }
 
 
 
   pinMode(buzzerPin, OUTPUT);
-  // Set up PWM for ESP32 (choose channel 0, frequency, resolution)
-  ledcSetup(0, 4000, 8); // 4 kHz beep // Channel 0, 2000 Hz, 8-bit resolution
+
+  ledcSetup(0, 4000, 8);
   ledcAttachPin(buzzerPin, 0);
 
 
@@ -73,9 +73,9 @@ void setup()
 void loop()
 {
    if (joystick.buttonPressed()) {
-      ledcWrite(0, 40); // 172/255 power (like analogWrite)
+      ledcWrite(0, 40);
       delay(150);
-      ledcWrite(0, 0);   // Turn off
+      ledcWrite(0, 0);
     }
 
   
@@ -117,7 +117,7 @@ void loop()
     
         case(SCORE_VIEW):
         {
-          if(joystick.direction() == LEFT && menuItem < 1) // Adjusted the limit
+          if(joystick.direction() == LEFT && menuItem < 1)
             menuItem++;
           if(joystick.direction() == RIGHT && menuItem > 0)
             menuItem--;
@@ -134,18 +134,18 @@ void loop()
             display.printf("%d: %d", scrollIndex + i + 1, game.scores[scrollIndex + i]);
           }
         
-          // Draw the "Delete scores" button at the bottom
+
           if (menuItem == 1) {
-            // Белый прямоугольник с подсветкой (выбранный пункт)
+
             display.fillRoundRect(0, 50, 128, 14, 4, SSD1306_WHITE);
-            display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Текст чёрный на белом фоне
+            display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); 
           } else {
-            // Чёрный прямоугольник (не выбран)
+
             display.fillRoundRect(0, 50, 128, 14, 4, SSD1306_BLACK);
-            display.setTextColor(SSD1306_WHITE, SSD1306_BLACK); // Текст белый на чёрном фоне
+            display.setTextColor(SSD1306_WHITE, SSD1306_BLACK);
           }
           
-          // Центровка текста
+
           display.setTextSize(1);
           display.setCursor((128 - 72) / 2, 54);
           display.println("Delete scores");
