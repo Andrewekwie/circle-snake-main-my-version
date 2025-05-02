@@ -6,7 +6,7 @@
 #include "Constants.h"
 #include "Joystick.h"
 
-#define MAX_SCORES 101   // максимум запоминаемых результатов
+#define MAX_SCORES 101
 
 struct Coord {
   uint8_t x;
@@ -31,9 +31,9 @@ class Game
 public:
   Game();
   
-  bool loadScores();    // загрузка из файла
+  bool loadScores();
   bool saveScores(); 
-  void sortScores();     // сохранение в файл
+  void sortScores();
   void init(Adafruit_SSD1306 _display, Joystick _joystick);
   int8_t tick();
   void reset();
@@ -42,11 +42,11 @@ public:
   uint8_t score;
   uint8_t trs_score;
 
-  // Новое:
-  int scores[MAX_SCORES];  // массив всех последних результатов
-  uint8_t scoreCount;      // сколько уже сохранено
 
-  void saveScore();        // сохраняет текущий результат в список
+  int scores[MAX_SCORES]; 
+  uint8_t scoreCount;    
+
+  void saveScore();        
 
 private:
   Adafruit_SSD1306 display;
